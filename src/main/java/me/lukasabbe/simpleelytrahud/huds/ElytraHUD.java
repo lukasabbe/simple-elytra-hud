@@ -7,6 +7,7 @@ import me.lukasabbe.simpleelytrahud.config.SpeedEnum;
 import me.lukasabbe.simpleelytrahud.data.ElytraData;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
@@ -49,10 +50,9 @@ public class ElytraHUD {
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        drawContext.setShaderColor(1.0f,1.0f,1.0f,1.0f);
 
         //Draw blackplate
-        drawContext.drawTexture(elytraHudAssets,x-50,y-60,2,44,100,36);
+        drawContext.drawTexture(RenderLayer::getGuiTextured,elytraHudAssets,x-50,y-60,2,44,100,36,100,36,256,256);
 
         //draws speed and pitch
         type(drawContext,String.format("%d°",(int)data.pitch),x-45, y-55,0xFFFFFF,client,0.6f);
@@ -67,7 +67,7 @@ public class ElytraHUD {
         drawArrows(drawContext, data.pitch < 0, x+5, y-52);
 
         //compass
-        drawContext.drawTexture(elytraHudAssets,x+14,y-58,44,1,29,31);
+        drawContext.drawTexture(RenderLayer::getGuiTextured,elytraHudAssets,x+14,y-58,44,1,29,31,29,31,256,256);
         drawCompassArrow(drawContext,x+28,y-43);
 
         //DMG level
@@ -89,11 +89,11 @@ public class ElytraHUD {
 
     private void drawArrows(DrawContext context, boolean isGoingUp, int x, int upY){
         if(isGoingUp){
-            context.drawTexture(elytraHudAssets,x,upY,18,6,6,8);
-            context.drawTexture(elytraHudAssets,x,upY+10,28,16,6,8);
+            context.drawTexture(RenderLayer::getGuiTextured,elytraHudAssets,x,upY,18,6,6,8,6,8,256,256);
+            context.drawTexture(RenderLayer::getGuiTextured,elytraHudAssets,x,upY+10,28,16,6,8,6,8,256,256);
         }else{
-            context.drawTexture(elytraHudAssets,x,upY,18,16,6,8);
-            context.drawTexture(elytraHudAssets,x,upY+10,28,6,6,8);
+            context.drawTexture(RenderLayer::getGuiTextured,elytraHudAssets,x,upY,18,16,6,8,6,8,256,256);
+            context.drawTexture(RenderLayer::getGuiTextured,elytraHudAssets,x,upY+10,28,6,6,8,6,8,256,256);
         }
     }
     private void drawCompassArrow(DrawContext context, int posX, int posY){
@@ -113,7 +113,7 @@ public class ElytraHUD {
             int y = MathHelper.lerp(
                     MathHelper.map(i,0,points,0,1),
                     posY,pos2y);
-            context.drawTexture(elytraHudAssets,x,y,77,12,1,1);
+            context.drawTexture(RenderLayer::getGuiTextured,elytraHudAssets,x,y,77,12,1,1,1,1,256,256);
         }
     }
 
@@ -121,7 +121,7 @@ public class ElytraHUD {
         drawScaledItem(context,posX-3,posY-size-7,Items.ELYTRA,0.5f);
         float dmgPercentage = (1 - (data.elytraStatus / data.maxElytraStatus));
         final int statusBar = posY - (int)(dmgPercentage * size);
-        context.fill(posX, posY, posX+2, statusBar, ColorHelper.Abgr.withAlpha(0xFF,data.elytraDmgColor));
+        context.fill(posX, posY, posX+2, statusBar, ColorHelper.withAlpha(0xFF,data.elytraDmgColor));
         float dmgPercentageLeft = 1 - dmgPercentage;
         if(dmgPercentageLeft == 0) return;
         context.fill(posX, statusBar, posX+2,statusBar - (int)(dmgPercentageLeft*size), 0xFF3D3D3D);

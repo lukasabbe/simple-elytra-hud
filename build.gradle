@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.6-SNAPSHOT'
+    id 'fabric-loom' version '1.8-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -35,7 +35,7 @@ dependencies {
     ]
 
     apiModules.forEach {
-        include(modImplementation(fabricApi.module(it,project.fabric_version)))
+        modImplementation(fabricApi.module(it,project.fabric_version))
     }
 
     //Modmenu

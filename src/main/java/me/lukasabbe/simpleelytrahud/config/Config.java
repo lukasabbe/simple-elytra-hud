@@ -30,4 +30,10 @@ public class Config{
 
     @SerialEntry
     public SpeedEnum speedEnum = SpeedEnum.km;
+
+    @SerialEntry
+    public boolean verticalSpeed = false;
+
+    @SerialEntry
+    public boolean groundSpeed = false;
 }

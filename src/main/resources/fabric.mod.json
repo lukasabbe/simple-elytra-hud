@@ -2,11 +2,11 @@
   "schemaVersion": 1,
   "id": "simpleelytrahud",
   "version": "${version}",
-  "name": "SimpleElytraHud",
+  "name": "Simple Elytra Hud",
   "description": "An elytra HUD mod",
   "authors": ["Lukasabbe"],
   "contact": {
-    "repo": "https://github.com/lukasabbe/TransportHud"
+    "repo": "https://github.com/lukasabbe/simple-elytra-hud"
   },
   "license": "MIT",
   "icon": "assets/simpleelytrahud/icon.png",
@@ -24,7 +24,7 @@
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",
-    "minecraft": ">=1.21.2",
+    "minecraft": ">=1.21.4",
     "java": ">=21",
     "fabric-api-base": "*",
     "fabric-lifecycle-events-v1": "*",

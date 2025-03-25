@@ -4,6 +4,8 @@ import me.lukasabbe.simpleelytrahud.SimpleElytraHudMod;
 import me.lukasabbe.simpleelytrahud.config.Config;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -36,7 +38,9 @@ public class ElytraData {
         ClientPlayerEntity player = client.player;
         if(player == null) return;
 
-        if(!player.isGliding() || !player.getInventory().getArmorStack(2).isOf(Items.ELYTRA)){
+        final ItemStack chestItem = player.getEquippedStack(EquipmentSlot.CHEST);
+
+        if(!player.isGliding() || !chestItem.isOf(Items.ELYTRA)){
             counter = 0;
             isFlying=false;
             return;
@@ -47,9 +51,9 @@ public class ElytraData {
             speed = (float) (player.getVelocity().length() * 20d);
             postion = player.getPos();
             pitch = player.getPitch();
-            elytraStatus = player.getInventory().getArmorStack(2).getDamage();
-            maxElytraStatus = player.getInventory().getArmorStack(2).getMaxDamage();
-            elytraDmgColor = player.getInventory().getArmorStack(2).getItemBarColor();
+            elytraStatus = chestItem.getDamage();
+            maxElytraStatus = chestItem.getMaxDamage();
+            elytraDmgColor = chestItem.getItemBarColor();
             yaw = MathHelper.wrapDegrees(player.getYaw()) + 90;
         }else counter++;
     }

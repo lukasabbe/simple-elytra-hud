@@ -42,14 +42,12 @@ public class ElytraHUD {
 
         int screenWidth = client.getWindow().getScaledWidth();
         int screenHeight = client.getWindow().getScaledHeight();
-        displaySpeed = MathHelper.lerp(tickCounter.getTickDelta(true), displaySpeed, data.speed);
+        displaySpeed = MathHelper.lerp(tickCounter.getFixedDeltaTicks(), displaySpeed, data.speed);
 
         //Creates pos for HUD
         int x = screenWidth / 2;
         int y = screenHeight - 25;
 
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
 
         //Draw blackplate
         drawContext.drawTexture(RenderLayer::getGuiTextured,elytraHudAssets,x-50,y-60,2,44,100,36,100,36,256,256);
@@ -73,8 +71,6 @@ public class ElytraHUD {
         //DMG level
         if(config.isElytraDmgStatusOn)
             drawElytraStatus(drawContext, x-2, y-31,17);
-
-        RenderSystem.disableBlend();
     }
 
     private void drawCords(DrawContext ctx, Vec3d pos, int x, int y, MinecraftClient client){

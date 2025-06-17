@@ -35,7 +35,7 @@ dependencies {
     ]
 
     apiModules.forEach {
-        modImplementation(fabricApi.module(it,project.fabric_version))
+        modImplementation(fabricApi.module(it, project.fabric_version))
     }
 
     //Modmenu
@@ -54,7 +54,7 @@ processResources {
         expand "version": project.version,
                 "minecraft_version": project.minecraft_version,
                 "loader_version": project.loader_version,
-                 "yacl_version": project.yacl_version
+                "yacl_version": project.yacl_version
     }
 }
 

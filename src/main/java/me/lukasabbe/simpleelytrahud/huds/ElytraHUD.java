@@ -1,11 +1,14 @@
 package me.lukasabbe.simpleelytrahud.huds;
 
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.lukasabbe.simpleelytrahud.config.Config;
 import me.lukasabbe.simpleelytrahud.SimpleElytraHudMod;
 import me.lukasabbe.simpleelytrahud.config.SpeedEnum;
 import me.lukasabbe.simpleelytrahud.data.ElytraData;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
@@ -16,6 +19,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import org.joml.Matrix3x2dStack;
+import org.joml.Matrix3x2fStack;
 
 /**
  * Elytra rendering HUD
@@ -50,11 +55,11 @@ public class ElytraHUD {
 
 
         //Draw blackplate
-        drawContext.drawTexture(RenderLayer::getGuiTextured,elytraHudAssets,x-50,y-60,2,44,100,36,100,36,256,256);
+        drawContext.drawTexture(RenderPipelines.GUI_TEXTURED, elytraHudAssets,x-50,y-60,2,44,100,36,100,36,256,256);
 
         //draws speed and pitch
-        type(drawContext,String.format("%d°",(int)data.pitch),x-45, y-55,0xFFFFFF,client,0.6f);
-        typeSpeed(drawContext, x,y,0xFFFFFF);
+        type(drawContext,String.format("%d°",(int)data.pitch),x-45, y-55,0xFFFFFFFF,client,0.6f);
+        typeSpeed(drawContext, x,y);
 
         //draw cords
         final Vec3d playerPos = client.player.getPos();
@@ -65,7 +70,7 @@ public class ElytraHUD {
         drawArrows(drawContext, data.pitch < 0, x+5, y-52);
 
         //compass
-        drawContext.drawTexture(RenderLayer::getGuiTextured,elytraHudAssets,x+14,y-58,44,1,29,31,29,31,256,256);
+        drawContext.drawTexture(RenderPipelines.GUI_TEXTURED, elytraHudAssets,x+14,y-58,44,1,29,31,29,31,256,256);
         drawCompassArrow(drawContext,x+28,y-43);
 
         //DMG level
@@ -76,20 +81,20 @@ public class ElytraHUD {
     private void drawCords(DrawContext ctx, Vec3d pos, int x, int y, MinecraftClient client){
         String cordsText = String.format("%d:%d:%d", (int)pos.x, (int)pos.y, (int)pos.z);
         if(cordsText.length() > 10){
-            type(ctx,cordsText,x,y,0xFFFFFF, client, ((float) (10 * 7 - ((cordsText.length()-4)*2)) / 100));
+            type(ctx,cordsText,x,y,0xFFFFFFFF, client, ((float) (10 * 7 - ((cordsText.length()-4)*2)) / 100));
         }else{
-            type(ctx,cordsText,x,y,0xFFFFFF, client, 0.6f);
+            type(ctx,cordsText,x,y,0xFFFFFFFF, client, 0.6f);
         }
     }
 
 
     private void drawArrows(DrawContext context, boolean isGoingUp, int x, int upY){
         if(isGoingUp){
-            context.drawTexture(RenderLayer::getGuiTextured,elytraHudAssets,x,upY,18,6,6,8,6,8,256,256);
-            context.drawTexture(RenderLayer::getGuiTextured,elytraHudAssets,x,upY+10,28,16,6,8,6,8,256,256);
+            context.drawTexture(RenderPipelines.GUI_TEXTURED, elytraHudAssets,x,upY,18,6,6,8,6,8,256,256);
+            context.drawTexture(RenderPipelines.GUI_TEXTURED, elytraHudAssets,x,upY+10,28,16,6,8,6,8,256,256);
         }else{
-            context.drawTexture(RenderLayer::getGuiTextured,elytraHudAssets,x,upY,18,16,6,8,6,8,256,256);
-            context.drawTexture(RenderLayer::getGuiTextured,elytraHudAssets,x,upY+10,28,6,6,8,6,8,256,256);
+            context.drawTexture(RenderPipelines.GUI_TEXTURED, elytraHudAssets,x,upY,18,16,6,8,6,8,256,256);
+            context.drawTexture(RenderPipelines.GUI_TEXTURED, elytraHudAssets,x,upY+10,28,6,6,8,6,8,256,256);
         }
     }
     private void drawCompassArrow(DrawContext context, int posX, int posY){
@@ -109,7 +114,7 @@ public class ElytraHUD {
             int y = MathHelper.lerp(
                     MathHelper.map(i,0,points,0,1),
                     posY,pos2y);
-            context.drawTexture(RenderLayer::getGuiTextured,elytraHudAssets,x,y,77,12,1,1,1,1,256,256);
+            context.drawTexture(RenderPipelines.GUI_TEXTURED,elytraHudAssets,x,y,77,12,1,1,1,1,256,256);
         }
     }
 
@@ -123,25 +128,25 @@ public class ElytraHUD {
         context.fill(posX, statusBar, posX+2,statusBar - (int)(dmgPercentageLeft*size), 0xFF3D3D3D);
     }
     private void drawScaledItem(DrawContext context, int poxX, int posY, Item item, float scaled){
-        MatrixStack stack = context.getMatrices();
-        stack.push();
-        stack.translate(poxX,posY,0);
-        stack.scale(scaled,scaled,scaled);
-        stack.translate(-poxX,-posY,0);
+        Matrix3x2fStack stack = context.getMatrices();
+        stack.pushMatrix();
+        stack.translate(poxX,posY);
+        stack.scale(scaled,scaled);
+        stack.translate(-poxX,-posY);
         context.drawItem(item.getDefaultStack(),poxX, posY);
-        stack.pop();
+        stack.popMatrix();
     }
     private void type(DrawContext graphics, String text, int centerX, int y, int color, MinecraftClient client, float scaled) {
-        MatrixStack stack = graphics.getMatrices();
-        stack.push();
-        stack.translate(centerX,y,0);
-        stack.scale(scaled,scaled,scaled);
-        stack.translate(-centerX,-y,0);
+        Matrix3x2fStack stack = graphics.getMatrices();
+        stack.pushMatrix();
+        stack.translate(centerX,y);
+        stack.scale(scaled,scaled);
+        stack.translate(-centerX,-y);
         graphics.drawTextWithShadow(client.textRenderer,text, centerX, y,color);
-        stack.pop();
+        stack.popMatrix();
     }
 
-    private void typeSpeed(DrawContext context, int x, int y, int color){
+    private void typeSpeed(DrawContext context, int x, int y){
         double speed = data.speed;
         final SpeedEnum speedEnum = Config.HANDLER.instance().speedEnum;
         if(speedEnum == SpeedEnum.m){
@@ -149,6 +154,6 @@ public class ElytraHUD {
         }else if(speedEnum == SpeedEnum.mph){
             speed = speed*0.621371;
         }
-        type(context,Math.round(speed*10.0)/10.0 + speedEnum.getDisplayName().getString(),x-45, y-45,0xFFFFFF,client,0.6f);
+        type(context,Math.round(speed*10.0)/10.0 + speedEnum.getDisplayName().getString(),x-45, y-45,0xFFFFFFFF, client,0.6f);
     }
 }

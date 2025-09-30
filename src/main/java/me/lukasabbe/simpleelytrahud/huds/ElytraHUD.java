@@ -62,7 +62,7 @@ public class ElytraHUD {
         typeSpeed(drawContext, x,y);
 
         //draw cords
-        final Vec3d playerPos = client.player.getPos();
+        final Vec3d playerPos = client.player.getSyncedPos();
         if(config.hudCords)
             drawCords(drawContext,playerPos,x-45, y-35,client);
 

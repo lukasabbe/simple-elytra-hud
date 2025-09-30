@@ -49,7 +49,7 @@ public class ElytraData {
         if(counter > Config.HANDLER.instance().hudDelay * 20){
             isFlying = true;
             speed = (float) (player.getVelocity().length() * 20d);
-            postion = player.getPos();
+            postion = player.getSyncedPos();
             pitch = player.getPitch();
             elytraStatus = chestItem.getDamage();
             maxElytraStatus = chestItem.getMaxDamage();

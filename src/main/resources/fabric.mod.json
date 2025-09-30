@@ -14,9 +14,6 @@
   "entrypoints": {
     "client": [
       "me.lukasabbe.simpleelytrahud.SimpleElytraHudMod"
-    ],
-    "modmenu": [
-      "me.lukasabbe.simpleelytrahud.config.ModMenu"
     ]
   },
   "mixins": [

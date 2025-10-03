@@ -39,7 +39,7 @@ dependencies {
     }
 
     //Modmenu
-    //modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
+    modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
     //Yacl
     modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
 }

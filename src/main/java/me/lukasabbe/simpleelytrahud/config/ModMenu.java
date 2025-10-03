@@ -1,4 +1,3 @@
-/*
 package me.lukasabbe.simpleelytrahud.config;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
@@ -59,4 +58,3 @@ public class ModMenu implements ModMenuApi {
         };
     }
 }
-*/

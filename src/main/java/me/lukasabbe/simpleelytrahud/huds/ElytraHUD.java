@@ -4,6 +4,7 @@ import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.lukasabbe.simpleelytrahud.config.Config;
 import me.lukasabbe.simpleelytrahud.SimpleElytraHudMod;
+import me.lukasabbe.simpleelytrahud.config.HudPosition;
 import me.lukasabbe.simpleelytrahud.config.SpeedEnum;
 import me.lukasabbe.simpleelytrahud.data.ElytraData;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
@@ -49,13 +50,14 @@ public class ElytraHUD {
         int screenHeight = client.getWindow().getScaledHeight();
         displaySpeed = MathHelper.lerp(tickCounter.getFixedDeltaTicks(), displaySpeed, data.speed);
 
-        //Creates pos for HUD
-        int x = screenWidth / 2;
-        int y = screenHeight - 25;
+        //Creates pos for HUD based on config
+        int[] pos = calculateHudPosition(screenWidth, screenHeight, config.hudPosition);
+        int x = pos[0];
+        int y = pos[1];
 
 
         //Draw blackplate
-        drawContext.drawTexture(RenderPipelines.GUI_TEXTURED, elytraHudAssets,x-50,y-60,2,44,100,36,100,36,256,256);
+        drawContext.drawTexture(RenderPipelines.GUI_TEXTURED, elytraHudAssets,+x-50,y-60,2,44,100,36,100,36,256,256);
 
         //draws speed and pitch
         type(drawContext,String.format("%d°",(int)data.pitch),x-45, y-55,0xFFFFFFFF,client,0.6f);
@@ -155,5 +157,32 @@ public class ElytraHUD {
             speed = speed*0.621371;
         }
         type(context,Math.round(speed*10.0)/10.0 + speedEnum.getDisplayName().getString(),x-45, y-45,0xFFFFFFFF, client,0.6f);
+    }
+
+    private int[] calculateHudPosition(int screenWidth, int screenHeight, HudPosition position) {
+        final Config config = Config.HANDLER.instance();
+        final int padding = 10;
+        final int hudHalfWidth = 50;
+        final int hudHeight = 36; // Height of HUD plate
+
+        // When ignoreSafeArea is enabled, position HUD at actual screen edges
+        if (config.ignoreSafeArea) {
+            return switch (position) {
+                case TOP_LEFT -> new int[]{hudHalfWidth + padding, 60 + padding};
+                case TOP_RIGHT -> new int[]{screenWidth - hudHalfWidth - padding, 60 + padding};
+                case BOTTOM_LEFT -> new int[]{hudHalfWidth + padding, screenHeight - padding * 2 + hudHeight};
+                case BOTTOM_RIGHT -> new int[]{screenWidth - hudHalfWidth - padding, screenHeight - padding  * 2 + hudHeight};
+                default -> new int[]{screenWidth / 2, screenHeight - 25}; // CENTER
+            };
+        }
+
+        // Default positions respecting safe area
+        return switch (position) {
+            case TOP_LEFT -> new int[]{hudHalfWidth + padding, 70 + padding};
+            case TOP_RIGHT -> new int[]{screenWidth - hudHalfWidth - padding, 70 + padding};
+            case BOTTOM_LEFT -> new int[]{hudHalfWidth + padding, screenHeight - 25};
+            case BOTTOM_RIGHT -> new int[]{screenWidth - hudHalfWidth - padding, screenHeight - 25};
+            default -> new int[]{screenWidth / 2, screenHeight - 25}; // CENTER
+        };
     }
 }

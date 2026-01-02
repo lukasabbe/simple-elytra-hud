@@ -30,4 +30,10 @@ public class Config{
 
     @SerialEntry
     public SpeedEnum speedEnum = SpeedEnum.km;
+
+    @SerialEntry
+    public HudPosition hudPosition = HudPosition.CENTER;
+
+    @SerialEntry
+    public boolean ignoreSafeArea = false;
 }

@@ -13,5 +13,14 @@
   "simpleelytrahud.option.speed.description": "Change between the speed measurement. To the one you like",
   "simpleelytrahud.option.speed.options.km":"km/h",
   "simpleelytrahud.option.speed.options.m":"m/s",
-  "simpleelytrahud.option.speed.options.mph":"mph"
+  "simpleelytrahud.option.speed.options.mph":"mph",
+  "simpleelytrahud.option.position.info": "HUD Position",
+  "simpleelytrahud.option.position.description": "Change the position of the HUD on screen",
+  "simpleelytrahud.option.position.options.center": "Center",
+  "simpleelytrahud.option.position.options.top_left": "Top Left",
+  "simpleelytrahud.option.position.options.top_right": "Top Right",
+  "simpleelytrahud.option.position.options.bottom_left": "Bottom Left",
+  "simpleelytrahud.option.position.options.bottom_right": "Bottom Right",
+  "simpleelytrahud.option.ignore_safe_area.info": "Ignore Safe Area",
+  "simpleelytrahud.option.ignore_safe_area.description": "Move HUD to screen edges, ignoring GUI safe area margins"
 }

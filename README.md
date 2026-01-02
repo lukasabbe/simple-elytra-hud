@@ -30,6 +30,8 @@ The mod requires [YetAnotherConfigLib](https://modrinth.com/mod/yacl) and [modme
 > - Elytra status — You can turn of the damage level for elytra in the HUD
 > - Elyta coordinates — If you want, you can disable coordinates in the HUD
 > - Speed measurement — There is km/h (default), m/s or mph available
+> - HUD position — Choose where to display the HUD: Center (default), Top Left, Top Right, Bottom Left, or Bottom Right
+> - Ignore Safe Area — Move HUD to actual screen edges, ignoring GUI safe area margins
 
 # Looking for a server?
 Get BisectHosting and save 25% off for new customers using code Lukas at checkout.

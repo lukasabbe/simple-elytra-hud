@@ -13,5 +13,14 @@
   "simpleelytrahud.option.speed.description": "Ändra ditt hastighetsmått",
   "simpleelytrahud.option.speed.options.km":"km/h",
   "simpleelytrahud.option.speed.options.m":"m/s",
-  "simpleelytrahud.option.speed.options.mph":"mph"
+  "simpleelytrahud.option.speed.options.mph":"mph",
+  "simpleelytrahud.option.position.info": "HUD-position",
+  "simpleelytrahud.option.position.description": "Ändra HUD:ens position på skärmen",
+  "simpleelytrahud.option.position.options.center": "Mitten",
+  "simpleelytrahud.option.position.options.top_left": "Uppe vänster",
+  "simpleelytrahud.option.position.options.top_right": "Uppe höger",
+  "simpleelytrahud.option.position.options.bottom_left": "Nere vänster",
+  "simpleelytrahud.option.position.options.bottom_right": "Nere höger",
+  "simpleelytrahud.option.ignore_safe_area.info": "Ignorera säker zon",
+  "simpleelytrahud.option.ignore_safe_area.description": "Flytta HUD till skärmkanter, ignorerar GUI:s säkra zonmarginaler"
 }
